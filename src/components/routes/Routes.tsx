@@ -6,6 +6,7 @@ import { Tasks } from '@/components/pages/Tasks'
 import { Task } from '@/components/pages/Task'
 import { Users } from '../pages/Users'
 import { EditTask } from '../pages/EditTask'
+import { Projects } from '../pages/Projects'
 
 export const Routes = () => {
   return useRoutes([
@@ -36,6 +37,10 @@ export const Routes = () => {
         {
           path: path.editTask(':id'),
           element: <EditTask />,
+        },
+        {
+          path: path.projects(),
+          element: <Projects />,
         },
       ],
     },
