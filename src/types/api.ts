@@ -8,6 +8,7 @@ export interface User {
 export interface Project {
   id: number;
   name: string;
+  user: User;
 }
 
 // Tag type
