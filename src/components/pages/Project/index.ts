@@ -1,0 +1,1 @@
+export { ProjectAdapterWithSuspense as Project } from './Project.adapter'
