@@ -1,0 +1,1 @@
+export { TasksAdapterWithSuspense as Tasks } from './Tasks.adapter'

@@ -1,0 +1,1 @@
+export { EditTaskAdapterWithSuspense as EditTask } from './EditTask.adapter'

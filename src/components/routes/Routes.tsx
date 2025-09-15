@@ -1,0 +1,43 @@
+import { useRoutes } from 'react-router-dom'
+import { path } from '@/constants/application'
+import { Welcome } from '@/components/pages/Welcome'
+import { Container } from '@/components/layout/Container'
+import { Tasks } from '@/components/pages/Tasks'
+import { Task } from '@/components/pages/Task'
+import { Users } from '../pages/Users'
+import { EditTask } from '../pages/EditTask'
+
+export const Routes = () => {
+  return useRoutes([
+    {
+      path: path.root(),
+      element: <Container />,
+      children: [
+        {
+          index: true,
+          element: <Tasks />,
+        },
+        {
+          path: path.welcome(),
+          element: <Welcome />,
+        },
+        {
+          path: path.tasks(),
+          element: <Tasks />,
+        },
+        {
+          path: path.task(':id'),
+          element: <Task />,
+        },
+        {
+          path: path.users(),
+          element: <Users />,
+        },
+        {
+          path: path.editTask(':id'),
+          element: <EditTask />,
+        },
+      ],
+    },
+  ])
+}

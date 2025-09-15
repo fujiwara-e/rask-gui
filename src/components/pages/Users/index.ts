@@ -1,0 +1,1 @@
+export { UsersAdapterWithSuspense as Users } from './Users.adapter'
