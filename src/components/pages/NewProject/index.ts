@@ -1,0 +1,1 @@
+export { NewProjectAdapterWithSuspense as NewProject } from "./NewProject.adapter"
