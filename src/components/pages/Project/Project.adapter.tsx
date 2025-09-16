@@ -1,8 +1,8 @@
-import { useParams } from "react-router-dom";
-import { Project } from "./Project";
-import { Suspense } from "react";
-import { useFetchProject } from "./useFetchProject";
-import { useFetchTasksByProject } from "./useFetchTasksByProject";
+import { useParams } from "react-router-dom"
+import { Project } from "./Project"
+import { Suspense } from "react"
+import { useFetchProject } from "./useFetchProject"
+import { useFetchTasksByProject } from "./useFetchTasksByProject"
 
 const ProjectAdapter = () => {
   const { id } = useParams<{ id: string }>()
@@ -14,7 +14,9 @@ const ProjectAdapter = () => {
   const project = useFetchProject(id)
   const filteredTasks = useFetchTasksByProject(project?.name || "")
 
-  return project ? <Project project={project} projectId={id} filteredTasks={filteredTasks} /> : null
+  return project ? (
+    <Project project={project} projectId={id} filteredTasks={filteredTasks} />
+  ) : null
 }
 
 export const ProjectAdapterWithSuspense = () => {
@@ -24,4 +26,3 @@ export const ProjectAdapterWithSuspense = () => {
     </Suspense>
   )
 }
-

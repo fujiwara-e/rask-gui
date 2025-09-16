@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useEffect, useState } from "react"
+import apiClient from "@/api/axios"
 
-import type { Task } from '@/types/api'
+import type { Task } from "@/types/api"
 
 export const useFetchTask = (id: string) => {
   const [task, setTask] = useState<Task | null>(null)
@@ -9,16 +9,13 @@ export const useFetchTask = (id: string) => {
   useEffect(() => {
     const fetchTask = async () => {
       try {
-        const response = await axios.get<Task>(`/api/tasks/${id}`)
+        const response = await apiClient.get<Task>(`/tasks/${id}`)
         setTask(response.data)
       } catch (error) {
-        console.error('Error fetching tasks:', error)
+        console.error("Error fetching tasks:", error)
       }
     }
     fetchTask()
   }, [id])
   return task
 }
-
-
-
