@@ -1,6 +1,6 @@
 import type { Project } from "@/types/api"
 import { useEffect, useState } from "react"
-import axios from 'axios'
+import apiClient from "@/api/axios"
 
 export const useFetchProject = (id: string) => {
   const [project, setProject] = useState<Project | null>(null)
@@ -8,7 +8,7 @@ export const useFetchProject = (id: string) => {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const response = await axios.get<Project>(`/api/projects/${id}`)
+        const response = await apiClient.get<Project>(`/projects/${id}`)
         setProject(response.data)
       } catch (error) {
         console.error('Error fetching project:', error)

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import apiClient from "@/api/axios"
 
 export const useEditTask = (id: string) => {
 
@@ -10,7 +11,7 @@ export const useEditTask = (id: string) => {
       setIsUpdating(true)
       try {
         // ここでタスクを更新する
-        await axios.patch(`/api/tasks/${id}`,)
+        await apiClient.patch(`/tasks/${id}`,)
       } catch (error) {
         console.error('Error updating task:', error)
         setError('メモの更新に失敗しました。再度お試しください。')

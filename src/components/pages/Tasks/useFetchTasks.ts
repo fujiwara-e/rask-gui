@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import apiClient from '@/api/axios'
 
 import type { Task } from '@/types/api'
 
@@ -9,7 +9,7 @@ export const useFetchTasks = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get<Task[]>('/api/tasks')
+        const response = await apiClient.get<Task[]>('/tasks')
         setTasks(response.data)
       } catch (error) {
         console.error('Error fetching tasks:', error)
