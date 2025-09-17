@@ -1,9 +1,12 @@
-import { Suspense, useState, type FormEvent } from "react"
-import { NewProject } from "./NewProject"
-import { useCreateProject } from "./useCreateProject"
+import { Suspense, useState, type FormEvent } from 'react'
+import { NewProject } from './NewProject'
+import { useCreateProject } from './useCreateProject'
+import { useNavigate } from 'react-router-dom'
+import { path } from '@/constants/application'
 
 const NewProjectAdapter = () => {
-  const [projectName, setProjectName] = useState<string>("")
+  const navigate = useNavigate()
+  const [projectName, setProjectName] = useState<string>('')
   const { createProject, isLoading } = useCreateProject()
 
   const handleSubmit = async (e: FormEvent) => {
@@ -11,12 +14,17 @@ const NewProjectAdapter = () => {
     if (!projectName.trim()) return
 
     await createProject(projectName)
+    navigate(path.projects())
   }
 
   return (
-    <NewProject projectName={projectName} onProjectNameChange={setProjectName} onSubmit={handleSubmit} isLoading={isLoading} />
+    <NewProject
+      projectName={projectName}
+      onProjectNameChange={setProjectName}
+      onSubmit={handleSubmit}
+      isLoading={isLoading}
+    />
   )
-
 }
 
 export const NewProjectAdapterWithSuspense = () => {

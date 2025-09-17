@@ -1,5 +1,5 @@
-import { useState } from "react"
-import axios from "axios"
+import { useState } from 'react'
+import apiClient from '@/api/axios'
 
 export const useCreateProject = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -10,7 +10,7 @@ export const useCreateProject = () => {
     setError(null)
 
     try {
-      const response = await axios.post('/api/projects', { name })
+      const response = await apiClient.post('/projects', { name })
       return response.data
     } catch (error) {
       console.error('Error creating project:', error)
