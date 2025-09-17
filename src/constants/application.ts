@@ -7,4 +7,5 @@ export const path = {
   editTask: (id: string) => `/tasks/${id}/edit`,
   projects: () => '/projects',
   project: (id: string) => `/projects/${id}`,
+  newProject: () => '/projects/new',
 }
