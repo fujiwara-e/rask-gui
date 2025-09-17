@@ -8,4 +8,5 @@ export const path = {
   projects: () => '/projects',
   project: (id: string) => `/projects/${id}`,
   newProject: () => '/projects/new',
+  editProject: (id: string) => `/projects/${id}/edit`,
 }
