@@ -1,13 +1,21 @@
-import axios from "axios"
+import axios from 'axios'
 
 const apiClient = axios.create({
-  baseURL: "/api",
+  baseURL: '/api',
 })
 
-apiClient.interceptors.response.use((config) => {
-  const token = localStorage.getItem("apiToken")
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('apiToken')
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`
+    if (!config.params) {
+      config.params = {}
+    }
+    config.params = {
+      ...config.params,
+      api_token: token,
+    }
+  } else {
+    console.warn('No API token found in localStorage')
   }
   return config
 })
