@@ -33,7 +33,9 @@ export const Projects = ({ projects }: Props) => {
                 </CardActionArea>
                 <Footer>
                   <CardActions sx={{ justifyContent: 'flex-end' }}>
-                    <Button size="small">編集</Button>
+                    <Button size="small" href={path.editProject(String(project.id))}>
+                      編集
+                    </Button>
                     <Button size="small">削除</Button>
                   </CardActions>
                 </Footer>
