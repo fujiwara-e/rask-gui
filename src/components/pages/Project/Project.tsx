@@ -2,36 +2,44 @@ import { PageHeader } from '@/components/layout/PageHeader'
 import { theme } from '@/constants/theme'
 import type { Project as ProjectType, Task } from '@/types/api'
 import { Box, Button, Card, CardActionArea, Grid, Paper, Stack, styled, Typography } from '@mui/material'
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
 
 type Props = {
   project: ProjectType
   projectId: string
   filteredTasks?: Task[] | null
+  onDelete: (id: string) => Promise<void>
+  isDeleting?: boolean
 }
 
-export const Project = ({ project, projectId, filteredTasks }: Props) => {
+export const Project = ({ project, projectId, filteredTasks, onDelete, isDeleting }: Props) => {
   return (
     <>
-      <Stack direction={"row"} justifyContent={"space-between"}>
+      <Stack direction={'row'} justifyContent={'space-between'}>
         <PageHeader title={project.name} />
-        <Box sx={{ mb: 5 }} >
-          <Stack direction={"row"} spacing={2} >
-            <Button variant="contained" href={`/projects/${projectId}/edit`} >編集</Button>
-            <Button variant="contained">削除</Button>
+        <Box sx={{ mb: 5 }}>
+          <Stack direction={'row'} spacing={2}>
+            <Button variant="contained" href={`/projects/${projectId}/edit`}>
+              編集
+            </Button>
+            <Button variant="contained" onClick={() => onDelete(projectId)} disabled={isDeleting}>
+              削除
+            </Button>
           </Stack>
         </Box>
       </Stack>
       <Paper sx={{ padding: 4 }}>
         <Stack spacing={4}>
           <StackContents spacing={1}>
-            <Typography variant="h6" fontWeight="bold">作成者</Typography>
-            <Typography >
-              {project.user.name}
+            <Typography variant="h6" fontWeight="bold">
+              作成者
             </Typography>
+            <Typography>{project.user.name}</Typography>
           </StackContents>
           <StackContents spacing={1}>
-            <Typography variant="h6" fontWeight="bold">タスク一覧</Typography>
+            <Typography variant="h6" fontWeight="bold">
+              タスク一覧
+            </Typography>
             <Paper sx={{ padding: 4 }}>
               {filteredTasks && filteredTasks.length > 0 ? (
                 <Grid container spacing={2}>
@@ -40,30 +48,30 @@ export const Project = ({ project, projectId, filteredTasks }: Props) => {
                       <CardActionArea component={Link} to={`/tasks/${task.id}`}>
                         <Card sx={{ height: 180 }}>
                           <CardContents>
-                            <Title >{task.content}</Title>
+                            <Title>{task.content}</Title>
                             <Container>
-                              <Typography sx={{
-                                display: "-webkit-box",
-                                WebkitLineClamp: 2,
-                                WebkitBoxOrient: "vertical",
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis'
-                              }}>
+                              <Typography
+                                sx={{
+                                  display: '-webkit-box',
+                                  WebkitLineClamp: 2,
+                                  WebkitBoxOrient: 'vertical',
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                }}
+                              >
                                 {task.description}
                               </Typography>
                             </Container>
                             <Footer>
                               <Typography>
-                                {typeof task.assigner === "string"
+                                {typeof task.assigner === 'string'
                                   ? task.assigner
                                   : task.assigner
                                     ? task.assigner.name
-                                    : ""}
+                                    : ''}
                               </Typography>
                               <Typography>
-                                {task.due_at
-                                  ? `期限まで:${deadline(task.due_at)}日`
-                                  : "期限なし"}
+                                {task.due_at ? `期限まで:${deadline(task.due_at)}日` : '期限なし'}
                               </Typography>
                             </Footer>
                           </CardContents>
