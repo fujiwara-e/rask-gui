@@ -1,27 +1,24 @@
-import { useEffect, useState } from "react"
-import apiClient from "@/api/axios"
+import { useState } from 'react'
+import apiClient from '@/api/axios'
+import type { TaskPayload } from '@/types/api'
 
-export const useEditTask = (id: string) => {
-
+export const useEditTask = () => {
   const [isUpdating, setIsUpdating] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    const editTask = async () => {
-      setIsUpdating(true)
-      try {
-        // ここでタスクを更新する
-        await apiClient.patch(`/tasks/${id}`,)
-      } catch (error) {
-        console.error('Error updating task:', error)
-        setError('メモの更新に失敗しました。再度お試しください。')
-        return false
-      } finally {
-        setIsUpdating(false)
-      }
-    }
-    editTask()
-  }, [id])
+  const editTask = async (id: string, data: Partial<TaskPayload>) => {
+    setIsUpdating(true)
+    setError(null)
 
-  return { isUpdating, error }
+    try {
+      await apiClient.patch(`/tasks/${id}`, data)
+    } catch (error) {
+      console.error('Error editing task:', error)
+      setError('タスクの編集に失敗しました。再度お試しください。')
+      throw error
+    } finally {
+      setIsUpdating(false)
+    }
+  }
+  return { editTask, isUpdating, error }
 }

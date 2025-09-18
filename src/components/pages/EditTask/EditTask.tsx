@@ -1,39 +1,43 @@
-import { PageHeader } from "@/components/layout/PageHeader"
-import type { Tag, Task, TaskState, User } from "@/types/api"
-import { Box, Menu, MenuItem, Paper, Select, Stack, styled, TextField, Typography } from "@mui/material"
-import { DatePicker } from "@mui/x-date-pickers"
-import { useState } from "react"
+import { PageHeader } from '@/components/layout/PageHeader'
+import { ChipsArray } from '@/components/ui/ChipsArray'
+import type { Project, Task, TaskPayload, User } from '@/types/api'
+import { Box, Button, MenuItem, Paper, Select, Stack, styled, TextareaAutosize, Typography } from '@mui/material'
+import { DateTimePicker } from '@mui/x-date-pickers'
+import dayjs from 'dayjs'
+import { useState, type FormEvent } from 'react'
 
 type Props = {
   task: Task
   users: User[]
+  projects: Project[] | null
+  onSubmit: (payload: Partial<TaskPayload>) => void
+  isUpdating: boolean
 }
 
-type FormData = {
-  content: string;
-  assigner: User
-  due_at?: string | null
-  tags: Tag[]
-  description?: string
-  task_state_id: number;
-}
-
-export const EditTask = ({ task, users }: Props) => {
-  const [form, setForm] = useState<FormData>({
+export const EditTask = ({ task, users, projects, onSubmit, isUpdating }: Props) => {
+  const [form, setForm] = useState<TaskPayload>({
     content: task.content,
-    assigner: task.assigner,
-    due_at: task.due_at || null,
-    tags: task.tags || [],
-    description: task.description || "",
-    task_state_id: task.state.id
+    assigner_id: task.assigner.id,
+    due_at: task.due_at || '',
+    tag_ids: task.tags ? task.tags.map((tag) => tag.id) : [],
+    description: task.description || '',
+    task_state_id: task.state.id,
   })
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault()
+    onSubmit(form)
+  }
+
   return (
     <>
       <PageHeader title="タスク編集" />
       <Paper sx={{ padding: 4 }}>
         <Stack spacing={4} component="form">
           <StackContents spacing={1}>
-            <Typography variant="h6" fontWeight="bold">状態</Typography>
+            <Typography variant="h6" fontWeight="bold">
+              状態
+            </Typography>
             <Select
               size="small"
               value={form.task_state_id}
@@ -48,13 +52,14 @@ export const EditTask = ({ task, users }: Props) => {
             </Select>
           </StackContents>
           <StackContents spacing={1}>
-            <Typography variant="h6" fontWeight="bold">担当者</Typography>
+            <Typography variant="h6" fontWeight="bold">
+              担当者
+            </Typography>
             <Select
               size="small"
-              value={form.assigner ? form.assigner.id : ""}
+              value={form.assigner_id}
               onChange={(e) => {
-                const selectedUser = users.find(user => user.id === e.target.value)
-                setForm({ ...form, assigner: selectedUser || form.assigner })
+                setForm({ ...form, assigner_id: e.target.value as number })
               }}
               sx={{ maxWidth: 200 }}
             >
@@ -66,28 +71,81 @@ export const EditTask = ({ task, users }: Props) => {
             </Select>
           </StackContents>
           <StackContents spacing={1}>
-            <Typography variant="h6" fontWeight="bold">期限</Typography>
+            <Typography variant="h6" fontWeight="bold">
+              期限
+            </Typography>
             <Box sx={{ maxWidth: 250 }}>
-              <DatePicker slotProps={{ textField: { size: "small" } }} />
+              <DateTimePicker
+                slotProps={{ textField: { size: 'small' } }}
+                value={form.due_at ? dayjs(form.due_at) : null}
+                onChange={(data) => {
+                  setForm({ ...form, due_at: data ? data.toISOString() : '' })
+                }}
+              />
             </Box>
           </StackContents>
           <StackContents spacing={1}>
-            <Typography variant="h6" fontWeight="bold">タグ</Typography>
-            {/* タグを取得する処理を書く必要がある */}
+            <Typography variant="h6" fontWeight="bold">
+              タグ
+            </Typography>
+            <ChipsArray
+              chipsdata={task.tags
+                .filter((tag) => form.tag_ids?.includes(tag.id))
+                .map((tag) => ({ key: tag.id, label: tag.name }))}
+              deletable={true}
+              onDelete={(tagId: number) => {
+                setForm({ ...form, tag_ids: (form.tag_ids ?? []).filter((id) => id !== tagId) })
+              }}
+            />
           </StackContents>
           <StackContents spacing={1}>
-            <Typography variant="h6" fontWeight="bold">内容</Typography>
-            <Typography >{task.content}</Typography>
+            <Typography variant="h6" fontWeight="bold">
+              内容
+            </Typography>
+            <TextareaAutosize
+              minRows={3}
+              value={form.content}
+              style={{ width: 200 }}
+              onChange={(e) => setForm({ ...form, content: e.target.value })}
+            />
           </StackContents>
           <StackContents spacing={1}>
-            <Typography variant="h6" fontWeight="bold">詳細</Typography>
-            <Typography >{task.description}</Typography>
+            <Typography variant="h6" fontWeight="bold">
+              詳細
+            </Typography>
+            <TextareaAutosize
+              minRows={3}
+              value={form.description}
+              style={{ width: 200 }}
+              onChange={(e) => setForm({ ...form, description: e.target.value })}
+            />
           </StackContents>
           <StackContents spacing={1}>
-            <Typography variant="h6" fontWeight="bold">所属プロジェクト</Typography>
-            <Typography >{task.project ? task.project.name : ""}</Typography>
+            <Typography variant="h6" fontWeight="bold">
+              所属プロジェクト
+            </Typography>
+            <Select
+              size="small"
+              value={form.project_id}
+              onChange={(e) => {
+                setForm({ ...form, project_id: e.target.value as number })
+              }}
+              sx={{ maxWidth: 200 }}
+            >
+              {projects &&
+                projects.map((project) => (
+                  <MenuItem key={project.id} value={project.id}>
+                    {project.name}
+                  </MenuItem>
+                ))}
+            </Select>
+            <Typography>{task.project ? task.project.name : ''}</Typography>
           </StackContents>
-
+          <StackContents spacing={1}>
+            <Button variant="contained" onClick={handleSubmit} sx={{ maxWidth: 100, mt: 4 }} disabled={isUpdating}>
+              {isUpdating ? '保存中...' : '保存'}
+            </Button>
+          </StackContents>
         </Stack>
       </Paper>
     </>
