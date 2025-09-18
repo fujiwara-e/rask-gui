@@ -11,6 +11,7 @@ import { Project } from '../pages/Project'
 import { NewProject } from '../pages/NewProject'
 import { EditProject } from '../pages/EditProject'
 import { NewTag } from '../pages/NewTag'
+import { Tags } from '../pages/Tags'
 
 export const Routes = () => {
   return useRoutes([
@@ -57,6 +58,10 @@ export const Routes = () => {
         {
           path: path.editProject(':id'),
           element: <EditProject />,
+        },
+        {
+          path: path.tags(),
+          element: <Tags />,
         },
         {
           path: path.newTag(),
