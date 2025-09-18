@@ -12,6 +12,7 @@ import { NewProject } from '../pages/NewProject'
 import { EditProject } from '../pages/EditProject'
 import { NewTag } from '../pages/NewTag'
 import { Tags } from '../pages/Tags'
+import { NewTask } from '../pages/NewTask'
 
 export const Routes = () => {
   return useRoutes([
@@ -36,12 +37,16 @@ export const Routes = () => {
           element: <Task />,
         },
         {
-          path: path.users(),
-          element: <Users />,
+          path: path.newTask(),
+          element: <NewTask />,
         },
         {
           path: path.editTask(':id'),
           element: <EditTask />,
+        },
+        {
+          path: path.users(),
+          element: <Users />,
         },
         {
           path: path.projects(),
