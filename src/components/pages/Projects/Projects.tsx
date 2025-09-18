@@ -7,9 +7,11 @@ import { Link } from 'react-router-dom'
 
 type Props = {
   projects: Project[]
+  onDelete: (id: string) => Promise<void>
+  isDeleting: boolean
 }
 
-export const Projects = ({ projects }: Props) => {
+export const Projects = ({ projects, onDelete, isDeleting }: Props) => {
   return (
     <>
       <Stack direction={'row'} justifyContent={'space-between'}>
@@ -36,7 +38,9 @@ export const Projects = ({ projects }: Props) => {
                     <Button size="small" href={path.editProject(String(project.id))}>
                       編集
                     </Button>
-                    <Button size="small">削除</Button>
+                    <Button size="small" onClick={() => onDelete(String(project.id))} disabled={isDeleting}>
+                      削除
+                    </Button>
                   </CardActions>
                 </Footer>
               </CardContents>
