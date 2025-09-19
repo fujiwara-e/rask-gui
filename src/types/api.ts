@@ -76,3 +76,18 @@ export interface TaskListResponse {
     total_count: number
   }
 }
+
+export interface Document {
+  id: number
+  content: string
+  creator_id: number
+  creator_name: string
+  description: string | null
+  created_at: string
+  updated_at: string
+  project_id: number | null
+  start_at: string
+  end_at: string
+  location: string
+  url: string
+}
