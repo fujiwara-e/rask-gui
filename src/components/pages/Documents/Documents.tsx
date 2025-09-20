@@ -21,7 +21,7 @@ export const Documents = ({ documents }: Props) => {
         {documents.map((document) => (
           <Grid key={document.id} size={{ xs: 6, md: 4 }}>
             {/*  Active state styles を使えば，グレーアウトできる */}
-            <CardActionArea component={Link} to={`/document/${document.id}`}>
+            <CardActionArea component={Link} to={`/documents/${document.id}`}>
               <Card sx={{ height: 180 }}>
                 <CardContents>
                   <Title>{document.content}</Title>
