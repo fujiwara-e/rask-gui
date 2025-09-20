@@ -15,6 +15,7 @@ import { Tags } from '../pages/Tags'
 import { NewTask } from '../pages/NewTask'
 import { Document } from '../pages/Document'
 import { Documents } from '../pages/Documents'
+import { NewDocument } from '../pages/NewDocument'
 
 export const Routes = () => {
   return useRoutes([
@@ -81,6 +82,10 @@ export const Routes = () => {
         {
           path: path.documents(),
           element: <Documents />,
+        },
+        {
+          path: path.newdocument(),
+          element: <NewDocument />,
         },
       ],
     },
