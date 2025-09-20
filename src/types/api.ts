@@ -93,3 +93,13 @@ export interface Document {
   tags: Tag[]
   project: Project | null
 }
+
+export interface DocumentPayload {
+  content: string
+  description?: string
+  project_id?: number
+  start_at: string
+  end_at: string
+  location: string
+  tag_names?: string
+}
