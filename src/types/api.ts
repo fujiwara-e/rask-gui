@@ -90,4 +90,6 @@ export interface Document {
   end_at: string
   location: string
   url: string
+  tags: Tag[]
+  project: Project | null
 }

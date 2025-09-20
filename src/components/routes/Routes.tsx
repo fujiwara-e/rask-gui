@@ -13,6 +13,7 @@ import { EditProject } from '../pages/EditProject'
 import { NewTag } from '../pages/NewTag'
 import { Tags } from '../pages/Tags'
 import { NewTask } from '../pages/NewTask'
+import { Document } from '../pages/Document'
 import { Documents } from '../pages/Documents'
 
 export const Routes = () => {
@@ -72,6 +73,10 @@ export const Routes = () => {
         {
           path: path.newTag(),
           element: <NewTag />,
+        },
+        {
+          path: path.document(':id'),
+          element: <Document />,
         },
         {
           path: path.documents(),
