@@ -14,4 +14,5 @@ export const path = {
   newTag: () => '/tags/new',
   document: (id: string) => `/documents/${id}`,
   documents: () => '/documents',
+  newdocument: () => '/documents/new',
 }
