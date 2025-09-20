@@ -4,6 +4,7 @@ import { Stack, Box, Button, Grid, CardActionArea, Card, Typography, styled } fr
 import { Link } from 'react-router-dom'
 import type { Document } from '@/types/api'
 import dayjs from 'dayjs'
+import { path } from '@/constants/application'
 
 type Props = {
   documents: Document[]
@@ -14,14 +15,16 @@ export const Documents = ({ documents }: Props) => {
       <Stack direction={'row'} justifyContent={'space-between'}>
         <PageHeader title="文書一覧" />
         <Box sx={{ mb: 5 }}>
-          <Button variant="contained">作成</Button>
+          <Button variant="contained" href={path.newdocument()}>
+            作成
+          </Button>
         </Box>
       </Stack>
       <Grid container spacing={4}>
         {documents.map((document) => (
           <Grid key={document.id} size={{ xs: 6, md: 4 }}>
             {/*  Active state styles を使えば，グレーアウトできる */}
-            <CardActionArea component={Link} to={`/documents/${document.id}`}>
+            <CardActionArea component={Link} to={path.document(String(document.id))}>
               <Card sx={{ height: 180 }}>
                 <CardContents>
                   <Title>{document.content}</Title>
