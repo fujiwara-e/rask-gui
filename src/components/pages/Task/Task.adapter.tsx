@@ -1,10 +1,14 @@
 import { Suspense } from 'react'
 import { Task } from './Task'
 import { useFetchTask } from './useFetchTask'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import { path } from '@/constants/application'
+import { useDeleteTask } from './useDeleteTask'
 
 const TaskAdapter = () => {
   const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
+  const { deleteTask, isLoading } = useDeleteTask()
 
   if (typeof id !== 'string') {
     throw new Error('unexpected error')
@@ -12,7 +16,12 @@ const TaskAdapter = () => {
 
   const task = useFetchTask(id)
 
-  return task ? <Task task={task} taskId={id} /> : null
+  const handleDelete = async (id: string) => {
+    await deleteTask(id)
+    navigate(path.tasks())
+  }
+
+  return task ? <Task task={task} taskId={id} onDelete={handleDelete} isDeleting={isLoading} /> : null
 }
 
 export const TaskAdapterWithSuspense = () => (
