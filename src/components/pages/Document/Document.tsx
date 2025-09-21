@@ -7,9 +7,11 @@ import Markdown from 'react-markdown'
 
 type Props = {
   document: DocumentType
+  onDelete: (id: string) => Promise<void>
+  isDeleting?: boolean
 }
 
-export const Document = ({ document }: Props) => {
+export const Document = ({ document, onDelete, isDeleting }: Props) => {
   return (
     <>
       <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
@@ -19,7 +21,9 @@ export const Document = ({ document }: Props) => {
             <Button variant="contained" href={`/documents/${document.id}/edit`}>
               編集
             </Button>
-            <Button variant="contained">削除</Button>
+            <Button variant="contained" onClick={() => onDelete(String(document.id))} disabled={isDeleting}>
+              削除
+            </Button>
           </Stack>
         </Box>
       </Stack>
