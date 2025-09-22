@@ -6,6 +6,7 @@ export const path = {
   newTask: () => '/tasks/new',
   editTask: (id: string) => `/tasks/${id}/edit`,
   users: () => '/users',
+  user: (id: string) => `/users/${id}`,
   projects: () => '/projects',
   project: (id: string) => `/projects/${id}`,
   newProject: () => '/projects/new',
