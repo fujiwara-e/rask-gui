@@ -1,7 +1,20 @@
 // User type for creator and assigner
 export interface User {
   id: number
+  provider: string
+  uid: string
   name: string
+  screen_name: string
+  avatar_url?: string
+  password_digest?: string
+  active?: boolean
+  created_at: string
+  updated_at: string
+  assigned_tasks?: Task[]
+  tasks?: Task[]
+  projects?: Project[]
+  // api_tokens?: ApiToken[];
+  documents?: Document[]
 }
 
 // Project type
