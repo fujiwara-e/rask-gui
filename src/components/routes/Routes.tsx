@@ -17,6 +17,7 @@ import { Document } from '../pages/Document'
 import { Documents } from '../pages/Documents'
 import { NewDocument } from '../pages/NewDocument'
 import { User } from '../pages/User'
+import { Tag } from '../pages/Tag'
 
 export const Routes = () => {
   return useRoutes([
@@ -75,6 +76,10 @@ export const Routes = () => {
         {
           path: path.tags(),
           element: <Tags />,
+        },
+        {
+          path: path.tag(':id'),
+          element: <Tag />,
         },
         {
           path: path.newTag(),
