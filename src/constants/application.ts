@@ -12,6 +12,7 @@ export const path = {
   newProject: () => '/projects/new',
   editProject: (id: string) => `/projects/${id}/edit`,
   tags: () => '/tags',
+  tag: (id: string) => `/tags/${id}`,
   newTag: () => '/tags/new',
   document: (id: string) => `/documents/${id}`,
   documents: () => '/documents',
