@@ -28,6 +28,8 @@ export interface Project {
 export interface Tag {
   id: number
   name: string
+  tasks?: Task[]
+  documents?: Document[]
   task_count: number
   created_at: string
   updated_at: string
