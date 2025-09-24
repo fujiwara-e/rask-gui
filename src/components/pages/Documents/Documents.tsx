@@ -5,11 +5,34 @@ import { Link } from 'react-router-dom'
 import type { Document } from '@/types/api'
 import dayjs from 'dayjs'
 import { path } from '@/constants/application'
+import { useEffect, useRef } from 'react'
+import { animate, createScope, Scope, stagger } from 'animejs'
 
 type Props = {
   documents: Document[]
 }
 export const Documents = ({ documents }: Props) => {
+  const root = useRef(null)
+  const scope = useRef<Scope>(null)
+
+  useEffect(() => {
+    if (documents.length === 0) return
+    scope.current = createScope({ root: root.current! }).add(() => {
+      animate('.anime-card', {
+        opacity: [0, 1],
+        translateY: [40, 0],
+        delay: stagger(100),
+        duration: 600,
+        easing: 'easeOutQuad',
+      })
+    })
+    return () => {
+      if (scope.current) {
+        scope.current.revert()
+      }
+    }
+  }, [documents])
+
   return (
     <>
       <Stack direction={'row'} justifyContent={'space-between'}>
@@ -25,7 +48,7 @@ export const Documents = ({ documents }: Props) => {
           <Grid key={document.id} size={{ xs: 6, md: 4 }}>
             {/*  Active state styles を使えば，グレーアウトできる */}
             <CardActionArea component={Link} to={path.document(String(document.id))}>
-              <Card sx={{ height: 180 }}>
+              <Card sx={{ height: 180, opacity: 0 }} className="anime-card">
                 <CardContents>
                   <Title>{document.content}</Title>
                   <Container>
