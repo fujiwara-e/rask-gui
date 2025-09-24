@@ -3,7 +3,9 @@ import { path } from '@/constants/application'
 import { theme } from '@/constants/theme'
 import type { Project } from '@/types/api'
 import { Box, Button, Card, CardActionArea, CardActions, Grid, Stack, styled, Typography } from '@mui/material'
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { animate, createScope, Scope, stagger } from 'animejs'
 
 type Props = {
   projects: Project[]
@@ -12,6 +14,27 @@ type Props = {
 }
 
 export const Projects = ({ projects, onDelete, isDeleting }: Props) => {
+  const root = useRef(null)
+  const scope = useRef<Scope>(null)
+
+  useEffect(() => {
+    if (projects.length === 0) return
+    scope.current = createScope({ root: root.current! }).add(() => {
+      animate('.anime-card', {
+        opacity: [0, 1],
+        translateY: [40, 0],
+        delay: stagger(100),
+        duration: 600,
+        easing: 'easeOutQuad',
+      })
+    })
+    return () => {
+      if (scope.current) {
+        scope.current.revert()
+      }
+    }
+  }, [projects])
+
   return (
     <>
       <Stack direction={'row'} justifyContent={'space-between'}>
@@ -25,7 +48,7 @@ export const Projects = ({ projects, onDelete, isDeleting }: Props) => {
       <Grid container spacing={4}>
         {projects.map((project) => (
           <Grid key={project.id} sx={{ xs: 6, md: 4 }}>
-            <Card sx={{ height: 180 }}>
+            <Card className="anime-card" sx={{ height: 180, opacity: 0 }}>
               <CardContents>
                 <CardActionArea component={Link} to={`/projects/${project.id}`}>
                   <Title>{project.name}</Title>
