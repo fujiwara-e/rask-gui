@@ -1,5 +1,6 @@
 import apiClient from '@/api/axios'
-import type { Document } from '@/types/api'
+import { convertDocumentResponseToDocument } from '@/api/converters/documentConverter'
+import type { Document, DocumentResponse } from '@/types/api'
 import { useEffect, useState } from 'react'
 
 export const useFetchDocument = (id: string) => {
@@ -8,8 +9,9 @@ export const useFetchDocument = (id: string) => {
   useEffect(() => {
     const fetchDocument = async () => {
       try {
-        const response = await apiClient.get<Document>(`/documents/${id}`)
-        setDocument(response.data)
+        const response = await apiClient.get<DocumentResponse>(`/documents/${id}`)
+        const converted = convertDocumentResponseToDocument(response.data)
+        setDocument(converted)
       } catch (error) {
         console.error('Error fetching document:', error)
       }
