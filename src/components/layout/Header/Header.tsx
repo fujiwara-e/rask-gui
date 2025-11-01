@@ -44,7 +44,6 @@ export const Header = () => {
               APIトークン一覧
             </Button>
           </Box>
-          <Button color="inherit">login</Button>
         </Toolbar>
       </AppBar>
     </Box>
