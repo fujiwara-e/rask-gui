@@ -45,7 +45,7 @@ export const Documents = ({ documents }: Props) => {
       </Stack>
       <Grid container spacing={4}>
         {documents.map((document) => (
-          <Grid key={document.id} size={{ xs: 6, md: 4 }}>
+          <Grid key={document.id} size={{ xs: 4, md: 4 }}>
             {/*  Active state styles を使えば，グレーアウトできる */}
             <CardActionArea component={Link} to={path.document(String(document.id))}>
               <Card sx={{ height: 180, opacity: 0 }} className="anime-card">
