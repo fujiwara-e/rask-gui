@@ -101,12 +101,29 @@ export interface Document {
   created_at: string
   updated_at: string
   project_id: number | null
+  project_name?: string
   start_at: string
   end_at: string
   location: string
   url: string
   tags: Tag[]
-  project: Project | null
+  creator?: User
+  project?: Project
+}
+
+export interface DocumentResponse {
+  id: number
+  content: string
+  creator: { id: number; name: string }
+  project?: { id: number; name: string }
+  description: string | null
+  created_at: string
+  updated_at: string
+  start_at: string
+  end_at: string
+  location: string
+  url: string
+  tags: Tag[]
 }
 
 export interface DocumentPayload {
