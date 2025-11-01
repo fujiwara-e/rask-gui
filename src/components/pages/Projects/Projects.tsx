@@ -47,27 +47,38 @@ export const Projects = ({ projects, onDelete, isDeleting }: Props) => {
       </Stack>
       <Grid container spacing={4}>
         {projects.map((project) => (
-          <Grid key={project.id} sx={{ xs: 6, md: 4 }}>
-            <Card className="anime-card" sx={{ height: 180, opacity: 0 }}>
-              <CardContents>
-                <CardActionArea component={Link} to={`/projects/${project.id}`}>
+          <Grid key={project.id} sx={{ xs: 4, md: 4 }}>
+            <CardActionArea component={Link} to={`/projects/${project.id}`}>
+              <Card className="anime-card" sx={{ position: 'relative', height: 180, opacity: 0 }}>
+                <CardContents>
                   <Title>{project.name}</Title>
                   <Container>
                     <Typography>達成率</Typography>
                   </Container>
-                </CardActionArea>
-                <Footer>
-                  <CardActions sx={{ justifyContent: 'flex-end' }}>
-                    <Button size="small" href={path.editProject(String(project.id))}>
-                      編集
-                    </Button>
-                    <Button size="small" onClick={() => onDelete(String(project.id))} disabled={isDeleting}>
-                      削除
-                    </Button>
-                  </CardActions>
-                </Footer>
-              </CardContents>
-            </Card>
+                  <Footer>
+                    <CardActions sx={{ justifyContent: 'flex-end' }}>
+                      <Button
+                        size="small"
+                        href={path.editProject(String(project.id))}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        編集
+                      </Button>
+                      <Button
+                        size="small"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          onDelete(String(project.id))
+                        }}
+                        disabled={isDeleting}
+                      >
+                        削除
+                      </Button>
+                    </CardActions>
+                  </Footer>
+                </CardContents>
+              </Card>
+            </CardActionArea>
           </Grid>
         ))}
       </Grid>
