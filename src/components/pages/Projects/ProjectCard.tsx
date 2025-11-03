@@ -13,7 +13,7 @@ type Props = {
 export const ProjectCard = ({ project, onDelete, isDeleting }: Props) => {
   return (
     <CardActionArea component={Link} to={`/projects/${project.id}`}>
-      <Card className="anime-card" sx={{ position: 'relative', height: 180, opacity: 0 }}>
+      <Card className="anime-card" sx={{ height: 180, opacity: 0 }}>
         <CardContents>
           <Title>{project.name}</Title>
           <Container>
