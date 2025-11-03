@@ -45,10 +45,10 @@ export const Tasks = ({ tasks }: Props) => {
       </Stack>
       <Grid container spacing={4}>
         {tasks.map((task) => (
-          <Grid key={task.id} size={{ xs: 6, md: 4 }}>
-            <Card className="anime-card" sx={{ height: 180, opacity: 0 }}>
-              <CardContents>
-                <CardActionArea component={Link} to={`/tasks/${task.id}`}>
+          <Grid key={task.id} size={{ xs: 4, md: 4 }}>
+            <CardActionArea component={Link} to={`/tasks/${task.id}`}>
+              <Card className="anime-card" sx={{ height: 180, opacity: 0 }}>
+                <CardContents>
                   <Title>{task.content}</Title>
                   <Container>
                     <Typography
@@ -69,9 +69,9 @@ export const Tasks = ({ tasks }: Props) => {
                     </Typography>
                     <Typography>{task.due_at ? `期限まで:${deadline(task.due_at)}日` : '期限なし'}</Typography>
                   </Footer>
-                </CardActionArea>
-              </CardContents>
-            </Card>
+                </CardContents>
+              </Card>
+            </CardActionArea>
           </Grid>
         ))}
       </Grid>
@@ -92,7 +92,7 @@ const Title = styled(Typography)`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: ${theme.spacing(1)};
+  padding-bottom: ${theme.spacing(1)};
 `
 
 const Container = styled(Box)`
