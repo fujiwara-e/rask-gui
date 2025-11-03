@@ -46,7 +46,7 @@ export const Projects = ({ projects, onDelete, isDeleting }: Props) => {
       </Stack>
       <Grid container spacing={4}>
         {projects.map((project) => (
-          <Grid key={project.id} sx={{ xs: 4, md: 4 }}>
+          <Grid key={project.id} size={{ xs: 4, md: 4 }}>
             <ProjectCard project={project} onDelete={onDelete} isDeleting={isDeleting} />
           </Grid>
         ))}
