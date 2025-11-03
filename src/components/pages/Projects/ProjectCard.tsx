@@ -21,7 +21,12 @@ export const ProjectCard = ({ project, onDelete, isDeleting }: Props) => {
           </Container>
           <Footer>
             <CardActions sx={{ justifyContent: 'flex-end' }}>
-              <Button size="small" href={path.editProject(String(project.id))} onClick={(e) => e.stopPropagation()}>
+              <Button
+                size="small"
+                component={Link}
+                to={path.editProject(String(project.id))}
+                onClick={(e) => e.stopPropagation()}
+              >
                 編集
               </Button>
               <Button
