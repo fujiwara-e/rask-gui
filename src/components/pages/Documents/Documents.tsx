@@ -42,9 +42,9 @@ export const Documents = ({ documents }: Props) => {
         </Box>
       </Stack>
       <Grid container spacing={4}>
-        {documents.map((document) => (
+        {documents.map((document, index) => (
           <Grid key={document.id} size={{ xs: 4, md: 4 }}>
-            <DocumentCard document={document} />
+            <DocumentCard document={document} columnIndex={index % 3} />
           </Grid>
         ))}
       </Grid>

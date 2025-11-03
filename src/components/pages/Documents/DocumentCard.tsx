@@ -5,12 +5,41 @@ import dayjs from 'dayjs'
 import { path } from '@/constants/application'
 import { theme } from '@/constants/theme'
 import { useState } from 'react'
+import { DocumentPopoverContent } from './DocumentPopoverContent'
 
 type Props = {
   document: Document
+  columnIndex?: number // 何列目か（0始まり）
 }
 
-export const DocumentCard = ({ document }: Props) => {
+import type { PopoverOrigin } from '@mui/material/Popover'
+
+const getPopoverPosition = (columnIndex?: number): { anchorOrigin: PopoverOrigin; transformOrigin: PopoverOrigin } => {
+  switch (columnIndex) {
+    case 0:
+      return {
+        anchorOrigin: { vertical: 'center', horizontal: 'right' },
+        transformOrigin: { vertical: 'center', horizontal: 'left' },
+      }
+    case 1:
+      return {
+        anchorOrigin: { vertical: 'bottom', horizontal: 'center' },
+        transformOrigin: { vertical: 'top', horizontal: 'center' },
+      }
+    case 2:
+      return {
+        anchorOrigin: { vertical: 'center', horizontal: 'left' },
+        transformOrigin: { vertical: 'center', horizontal: 'right' },
+      }
+    default:
+      return {
+        anchorOrigin: { vertical: 'center', horizontal: 'center' },
+        transformOrigin: { vertical: 'center', horizontal: 'center' },
+      }
+  }
+}
+
+export const DocumentCard = ({ document, columnIndex }: Props) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
 
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -22,6 +51,7 @@ export const DocumentCard = ({ document }: Props) => {
   }
 
   const open = Boolean(anchorEl)
+  const { anchorOrigin, transformOrigin } = getPopoverPosition(columnIndex)
 
   return (
     <>
@@ -60,18 +90,12 @@ export const DocumentCard = ({ document }: Props) => {
         sx={{ pointerEvents: 'none' }}
         open={open}
         anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
+        anchorOrigin={anchorOrigin}
+        transformOrigin={transformOrigin}
         onClose={handlePopoverClose}
         disableRestoreFocus
       >
-        <Typography sx={{ p: 1 }}>I use Popover.</Typography>
+        <DocumentPopoverContent document={document} />
       </Popover>
     </>
   )
