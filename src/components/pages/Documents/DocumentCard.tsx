@@ -1,6 +1,7 @@
 import { Card, CardActionArea, Typography, Box, styled, Popover } from '@mui/material'
 import { Link } from 'react-router-dom'
 import type { Document } from '@/types/api'
+import type { PopoverOrigin } from '@mui/material/Popover'
 import dayjs from 'dayjs'
 import { path } from '@/constants/application'
 import { theme } from '@/constants/theme'
@@ -11,8 +12,6 @@ type Props = {
   document: Document
   columnIndex?: number // 何列目か（0始まり）
 }
-
-import type { PopoverOrigin } from '@mui/material/Popover'
 
 const getPopoverPosition = (columnIndex?: number): { anchorOrigin: PopoverOrigin; transformOrigin: PopoverOrigin } => {
   switch (columnIndex) {
