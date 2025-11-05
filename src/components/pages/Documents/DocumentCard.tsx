@@ -62,20 +62,20 @@ export const DocumentCard = ({ document, columnIndex }: Props) => {
           <CardContents>
             <TitleRow>
               <Title>{document.content}</Title>
-              <IconButton
-                size="small"
-                onClick={handleInfoClick}
-                sx={{
-                  position: 'absolute',
-                  top: 12,
-                  right: 8,
-                  zIndex: 1,
-                }}
-                aria-label="詳細情報を表示"
-              >
-                <Info size={18} />
-              </IconButton>
             </TitleRow>
+            <IconButton
+              size="small"
+              onClick={handleInfoClick}
+              sx={{
+                position: 'absolute',
+                top: 12,
+                right: 8,
+                zIndex: 1,
+              }}
+              aria-label="詳細情報を表示"
+            >
+              <Info size={18} />
+            </IconButton>
             <Container>
               <Typography
                 sx={{
