@@ -122,9 +122,7 @@ const CardContents = styled(Box)`
 const TitleRow = styled(Box)`
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
   gap: ${theme.spacing(1)};
-  padding-right: ${theme.spacing(4)};
 `
 
 const Title = styled(Typography)`
