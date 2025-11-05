@@ -1,4 +1,5 @@
-import { Card, CardActionArea, Typography, Box, styled, Popover } from '@mui/material'
+import { Card, CardActionArea, Typography, Box, styled, Popover, IconButton } from '@mui/material'
+import { Info } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import type { Document } from '@/types/api'
 import type { PopoverOrigin } from '@mui/material/Popover'
@@ -41,7 +42,9 @@ const getPopoverPosition = (columnIndex?: number): { anchorOrigin: PopoverOrigin
 export const DocumentCard = ({ document, columnIndex }: Props) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
 
-  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
+  const handleInfoClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    event.stopPropagation()
     setAnchorEl(event.currentTarget)
   }
 
@@ -54,15 +57,25 @@ export const DocumentCard = ({ document, columnIndex }: Props) => {
 
   return (
     <>
-      <CardActionArea
-        component={Link}
-        to={path.document(String(document.id))}
-        onMouseEnter={handlePopoverOpen}
-        onMouseLeave={handlePopoverClose}
-      >
-        <Card sx={{ height: 180, opacity: 0 }} className="anime-card">
+      <Card sx={{ height: 180, opacity: 0, position: 'relative' }} className="anime-card">
+        <CardActionArea component={Link} to={path.document(String(document.id))} sx={{ height: '100%' }}>
           <CardContents>
-            <Title>{document.content}</Title>
+            <TitleRow>
+              <Title>{document.content}</Title>
+              <IconButton
+                size="small"
+                onClick={handleInfoClick}
+                sx={{
+                  position: 'absolute',
+                  top: 12,
+                  right: 8,
+                  zIndex: 1,
+                }}
+                aria-label="詳細情報を表示"
+              >
+                <Info size={18} />
+              </IconButton>
+            </TitleRow>
             <Container>
               <Typography
                 sx={{
@@ -81,18 +94,16 @@ export const DocumentCard = ({ document, columnIndex }: Props) => {
               <Typography>{dayjs(document.created_at).format('YYYY-MM-DD')}</Typography>
             </Footer>
           </CardContents>
-        </Card>
-      </CardActionArea>
+        </CardActionArea>
+      </Card>
 
       <Popover
-        id="mouse-over-popover"
-        sx={{ pointerEvents: 'none' }}
+        id="document-info-popover"
         open={open}
         anchorEl={anchorEl}
         anchorOrigin={anchorOrigin}
         transformOrigin={transformOrigin}
         onClose={handlePopoverClose}
-        disableRestoreFocus
       >
         <DocumentPopoverContent document={document} />
       </Popover>
@@ -108,11 +119,20 @@ const CardContents = styled(Box)`
   padding: ${theme.spacing(2)};
 `
 
+const TitleRow = styled(Box)`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: ${theme.spacing(1)};
+  padding-right: ${theme.spacing(4)};
+`
+
 const Title = styled(Typography)`
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  flex: 1;
 `
 
 const Container = styled(Box)`
